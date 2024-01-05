@@ -1,0 +1,71 @@
+@model IEnumerable<Project.Models.Domain.StudentModel>
+
+
+@{
+    ViewData["Title"] = "View Employees";
+    int counter = 1;
+    Pager pager = new Pager();
+    int pageNumber = 0;
+    if(ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNumber = pager.CurrentPage;
+    }
+}
+
+@* Here, we must use partial view to prevent code from repetition.  *@
+
+
+ <div class="col col-md-10">
+     @if (Model != null)
+     {
+         <table class="table">
+             <thead>
+                 <tr>
+                     <th scope="col">Id</th>
+                     <th scope="col">Name</th>
+                     <th scope="col">Address</th>
+                     <th scope="col">Email</th>
+                     <th scope="col">Grade</th>
+                     <th scope="col">Action</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 @foreach (var data in Model)
+                 {
+
+                     <tr>
+                         <th scope="row">@counter</th>
+                         <td>@data.Name</td>
+                         <td>@data.Address</td>
+                         <td>@data.Email</td>
+                         <td>@data.Phone</td>
+                         <td>@data.Grade</td>
+                         
+                         <td class="d-flex flex-row align-items-center">
+                             <a href="#" class="bg-danger text-center rounded text-center">
+                                Delete
+                             </a>
+                             <a href="#" class="bg-success mx-1 rounded text-center">
+                                Edit
+                             </a>
+                             <a href="#" class="bg-primary mx-1 rounded text-center">
+                                View
+                             </a>
+                         </td>
+                     </tr>
+                     counter++;
+                 }
+
+             </tbody>
+         </table>
+            @* Here is partial view called. *@
+         <partial name="~/Views/Shared/_Paginator.cshtml" model = "@pager"/>
+     }
+     else
+     {
+         <div class="alert alert-secondary" role="alert">
+             No Data Found !!
+         </div>
+     }
+ </div>
